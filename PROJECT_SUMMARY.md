@@ -1,0 +1,3 @@
+# Project summary
+
+Separate, portable motion Agent Skill installer. Default installs the original `motion-skill-workflow` routing skill, which links to a pinned static audit of 15 repositories. Optional `--official` installs one MIT LottieFiles skill and eight MIT GSAP skill directories, with notices and one documented LottieFiles frontmatter rename. No upstream scripts, dependency installers, media assets or restricted/unlicensed Remotion skills are bundled. `install.py` preserves conflicting skills and locally edited copies; tests exercise dry-run, idempotence, official selection, copy updates and symlink protection. Runtime discovery, paid services, licensing of runtime libraries and actual video rendering are separately gated.
