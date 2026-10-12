@@ -31,7 +31,8 @@ def skill_files(name):
     if name == CORE:
         return ("SKILL.md", "references/catalog.md")
     root = skill_source(name)
-    return tuple(sorted(str(p.relative_to(root)) for p in root.rglob("*.md") if p.is_file()))
+    markdown = [str(p.relative_to(root)) for p in root.rglob("*.md") if p.is_file()]
+    return tuple(sorted(markdown + ["LICENSE"]))
 
 
 def linked_content(root, names):
@@ -69,8 +70,8 @@ def run(argv=None):
             parser.error(f"missing files in {src}")
         if linked_content(src, names) or any(p.is_symlink() for p in src.rglob("*")):
             parser.error(f"symlinked source content in {src}")
-        if skill != CORE and any(p.is_file() and p.suffix != ".md" for p in src.rglob("*")):
-            parser.error(f"non-Markdown file in bundled skill {src}")
+        if skill != CORE and any(p.is_file() and p.suffix != ".md" and p.name != "LICENSE" for p in src.rglob("*")):
+            parser.error(f"unexpected file in bundled skill {src}")
     home = args.home.expanduser().resolve()
     mode = ("copy" if os.name == "nt" else "link") if args.mode == "auto" else args.mode
     problems = 0

@@ -1,6 +1,6 @@
 # Motion Skill Workflow
 
-A **cross-tool Agent Skill installer** with a curated motion-design workflow, a read-only [audit map of 15 repositories](references/catalog.md), and optional Markdown-only skills from LottieFiles and GSAP. It does not install video libraries, run upstream scripts, download models, upload media, or grant third-party instructions authority.
+A **cross-tool Agent Skill installer** with a curated motion-design workflow, a read-only [audit map of 15 repositories](references/catalog.md), and optional skill Markdown with colocated MIT notices from LottieFiles and GSAP. It does not install video libraries, run upstream scripts, download models, upload media, or grant third-party instructions authority.
 
 ## Install on macOS or Linux
 
@@ -23,7 +23,7 @@ python3 "$HOME/.local/share/motion-skill-workflow/install.py" --official
 python3 "$HOME/.local/share/motion-skill-workflow/install.py" --official --verify
 ```
 
-Existing skill-name conflicts are **left untouched** and cause a nonzero exit; other unconflicted targets can still install. For a smaller selection, use `--skills motion-skill-workflow,lottiefiles-motion-design` or `--skills motion-skill-workflow,gsap-react` with any of the skill names in `install.py`. For one client, add `--tools codex` (or another listed tool). Official skills are pinned copies of Markdown and references, not installation of `gsap`, `@gsap/react`, Lottie, Remotion or rendering dependencies. Their instructions may describe external commands; choose whether to run anything in your own project.
+Existing skill-name conflicts are **left untouched** and cause a nonzero exit; other unconflicted targets can still install. For a smaller selection, use `--skills motion-skill-workflow,lottiefiles-motion-design` or `--skills motion-skill-workflow,gsap-react` with any of the skill names in `install.py`. For one client, add `--tools codex` (or another listed tool). Official skills are pinned copies of Markdown, references and their `LICENSE` notices, not installation of `gsap`, `@gsap/react`, Lottie, Remotion or rendering dependencies. Their instructions may describe external commands; choose whether to run anything in your own project.
 
 ## Windows PowerShell
 

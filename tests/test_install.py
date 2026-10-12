@@ -1,3 +1,4 @@
+import os
 import shutil
 import subprocess
 import sys
@@ -52,7 +53,25 @@ class InstallerTests(unittest.TestCase):
                 dest = self.home / tool / name
                 self.assertTrue((dest / "SKILL.md").is_file())
                 if name != "motion-skill-workflow":
-                    self.assertTrue(all(p.suffix == ".md" for p in dest.rglob("*") if p.is_file()))
+                    self.assertEqual((dest / "LICENSE").read_bytes(), (self.checkout / "third_party" / name / "LICENSE").read_bytes())
+                    self.assertTrue(all(p.suffix == ".md" or p.name == "LICENSE" for p in dest.rglob("*") if p.is_file()))
+
+    def test_official_managed_copy_includes_license(self):
+        args = ("--tools", "claude", "--skills", "lottiefiles-motion-design,gsap-core", "--mode", "copy")
+        self.cli(*args)
+        self.cli(*args, "--verify")
+        for name in ("lottiefiles-motion-design", "gsap-core"):
+            dest = self.home / ".claude/skills" / name
+            self.assertFalse(dest.is_symlink())
+            self.assertTrue((dest / "LICENSE").is_file())
+            self.assertEqual((dest / "LICENSE").read_bytes(), (self.checkout / "third_party" / name / "LICENSE").read_bytes())
+            self.assertTrue((dest / ".motion-skill-workflow-install.json").is_file())
+
+    def test_auto_mode_uses_platform_appropriate_install(self):
+        self.cli("--tools", "codex")
+        dest = self.home / ".codex/skills/motion-skill-workflow"
+        self.assertEqual(dest.is_symlink(), os.name != "nt")
+        self.assertEqual((dest / ".motion-skill-workflow-install.json").is_file(), os.name == "nt")
 
     def test_existing_other_skill_is_never_overwritten(self):
         dest = self.home / ".claude/skills/motion-skill-workflow"
