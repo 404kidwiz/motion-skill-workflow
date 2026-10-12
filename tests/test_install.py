@@ -43,7 +43,7 @@ class InstallerTests(unittest.TestCase):
         for dirname in (".skills", ".hermes/skills", ".codex/skills", ".claude/skills", ".cursor/skills", ".gemini/skills", ".config/opencode/skills", ".opencode/skills", ".openclaude/skills", ".grok/skills", ".zcode/skills", ".agents/skills"):
             self.assertEqual((self.home / dirname / "motion-skill-workflow/SKILL.md").read_bytes(), (self.checkout / "SKILL.md").read_bytes())
 
-    def test_official_bundle_installs_only_selected_markdown(self):
+    def test_official_bundle_installs_selected_content_and_license(self):
         names = ("motion-skill-workflow", "lottiefiles-motion-design", "gsap-core")
         args = ("--tools", "codex,gemini-antigravity", "--skills", ",".join(names))
         self.cli(*args)
@@ -54,7 +54,7 @@ class InstallerTests(unittest.TestCase):
                 self.assertTrue((dest / "SKILL.md").is_file())
                 if name != "motion-skill-workflow":
                     self.assertEqual((dest / "LICENSE").read_bytes(), (self.checkout / "third_party" / name / "LICENSE").read_bytes())
-                    self.assertTrue(all(p.suffix == ".md" or p.name == "LICENSE" for p in dest.rglob("*") if p.is_file()))
+                    self.assertTrue(all(p.suffix == ".md" or p.name in ("LICENSE", ".motion-skill-workflow-install.json") for p in dest.rglob("*") if p.is_file()))
 
     def test_official_managed_copy_includes_license(self):
         args = ("--tools", "claude", "--skills", "lottiefiles-motion-design,gsap-core", "--mode", "copy")
